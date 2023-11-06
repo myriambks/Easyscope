@@ -1,0 +1,30 @@
+Circuit: * C:\Users\chaim\Desktop\E C E\ING4\MICROCONTROLEURS\FunctionGenerator\schemaDAC8bit.asc
+
+WARNING: Less than two connections to node RB0.  This node is used by R17.
+WARNING: Less than two connections to node RB1.  This node is used by R18.
+WARNING: Less than two connections to node RB2.  This node is used by R19.
+WARNING: Less than two connections to node RB3.  This node is used by R20.
+WARNING: Less than two connections to node RB4.  This node is used by R21.
+WARNING: Less than two connections to node RB5.  This node is used by R22.
+WARNING: Less than two connections to node RB6.  This node is used by R23.
+WARNING: Less than two connections to node RB7.  This node is used by R24.
+WARNING: Less than two connections to node RA0-POTENTIOMÈTRE.  This node is used by V3.
+Direct Newton iteration for .op point succeeded.
+
+Date: Thu Nov 02 00:31:01 2023
+Total elapsed time: 0.151 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 2095
+traniter = 2092
+tranpoints = 1047
+accept = 1047
+rejected = 0
+matrix size = 42
+fillins = 0
+solver = Normal
+Matrix Compiler1: 1.48 KB object code size  0.2/0.2/[0.1]
+Matrix Compiler2: 2.76 KB object code size  0.1/0.3/[0.1]
+
