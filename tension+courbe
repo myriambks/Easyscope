@@ -1,0 +1,76 @@
+#include "main.h"
+#include <xc.h>
+#include <pic18f4550.h>
+#include "glcd.h"
+#include <math.h>
+#include <stdio.h>
+
+#pragma config FOSC = HS      // Oscillateur HS
+#pragma config PWRT = OFF
+#pragma config BOR = OFF
+#pragma config WDT = OFF      // Désactiver le watchdog
+#pragma config LVP = OFF      // Désactiver la programmation basse tension
+#pragma config DEBUG = ON     // Debug ON
+
+uint16_t valor;
+float voltaje;
+char datos[20];
+
+void ADC_init(void) {
+    ADCON1bits.PCFG = 0; // Tous les ports analogiques
+    ADCON1bits.VCFG = 0;
+    ADCON0 = 0;
+    ADCON2bits.ACQT = 3;
+    ADCON2bits.ADCS = 5;
+    ADCON2bits.ADFM = 1;
+}
+
+unsigned int ADC_read(unsigned char ch) {
+    if (ch > 13) return 0;
+    ADCON0 = 0;
+    ADCON0 = (ch << 2);
+    ADCON0bits.ADON = 1;
+    ADCON0bits.GO_DONE = 1;
+    while (ADCON0bits.GO_DONE == 1);
+    ADCON0bits.ADON = 0;
+    return ADRES;
+}
+
+void main() {
+    // Initialisez le microcontrôleur
+    initMyPIC18F();
+    ADC_init();
+    glcd_FillScreen(0);
+    glcd_Init(GLCD_ON);
+    glcd_Image();
+    __delay_us(2000000);
+    glcd_FillScreen(0);
+
+    TRISA = 1; // PORTA -> Entrée
+
+    // Coordonnées pour afficher la courbe
+    int x = 0;
+    int y;
+
+    while (1) {
+        valor = ADC_read(0);
+        voltaje = ((float)valor * 5.0) / 1023;
+        sprintf(datos, "%.2f", voltaje);
+        glcd_SetCursor(96, 1);
+        glcd_WriteString(datos, f8X8, GLCD_ON);
+
+        // Inverser la courbe en utilisant (32 - y) pour inverser les coordonnées y
+        y = 32 - (int)((voltaje / 5.0) * 32); // Ajustez la valeur pour un meilleur affichage
+
+        glcd_PlotPixel(x, y, GLCD_ON);
+
+        x++; // Augmentez la position x pour la prochaine valeur
+        if (x >= 128) {
+            x = 0; // Réinitialisez x pour afficher la courbe en boucle
+            glcd_FillScreen(0); // Effacez l'écran pour recommencer la courbe
+            __delay_ms(500);
+        }
+
+        
+    }
+}
