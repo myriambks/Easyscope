@@ -1,4 +1,4 @@
-#include <p18F4550>
+#include <p18F4550.inc>
 
 ; config lines for interrupts    
 CONFIG WDT = OFF			; disable watchdog timer 
@@ -15,25 +15,25 @@ FREQ_MIN equ 10
 FREQ_MAX equ 1000
 ;CYCLE_STEP EQU 10 ;  step for each button
  
-; Declaration of my virtual register
-CBLOCK Ox20
-    FREQUENCY_POTENTIOMETER
-    ; raw digits to be displayed
-    FREQUENCY_POTENTIOMETER_0
-    FREQUENCY_POTENTIOMETER_1
-    FREQUENCY_POTENTIOMETER_2
-    FREQUENCY_POTENTIOMETER_3
-    ; temporary used by the decode routine
-    FREQUENCY_TEMPORARY 
-    ; final digits ready to be displayed
-    FREQUENCY_DISPLAY_0 
-    FREQUENCY_DISPLAY_1
-    FREQUENCY_DISPLAY_2 
-    FREQUENCY_DISPLAY_3 
-    ;button_status
-    ;temporary_variable
-    ;duty_cycle
-ENDC
+; Declaration of my variables
+
+FREQUENCY_POTENTIOMETER equ 0x20
+; raw digits to be displayed
+FREQUENCY_POTENTIOMETER_0 equ 0x21
+FREQUENCY_POTENTIOMETER_1 equ 0x22
+FREQUENCY_POTENTIOMETER_2 equ 0x23
+FREQUENCY_POTENTIOMETER_3 equ 0x24
+; temporary used by the decode routine
+FREQUENCY_TEMPORARY equ 0x25
+; final digits ready to be displayed
+FREQUENCY_DISPLAY_0 equ 0x26
+FREQUENCY_DISPLAY_1 equ 0x27
+FREQUENCY_DISPLAY_2 equ 0x28
+FREQUENCY_DISPLAY_3 equ 0x29
+;button_status
+;temporary_variable
+;duty_cycle
+
 
 org 0x0000				; reset vector
 GOTO INIT
@@ -106,7 +106,7 @@ MAIN_LOOP
     
     
     GOTO MAIN_LOOP
-END
+
        
 ;   --Interrupt routine 
 IRQ_HANDLE				; flag test 
@@ -299,3 +299,5 @@ display_delay
     decfsz count1
     GOTO display_delay
 RETURN       
+
+END
