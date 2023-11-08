@@ -1,0 +1,39 @@
+Modification de ce code pour l'afficher sur le 7-seg :
+
+// Fonction pour afficher un chiffre sur l'afficheur 7 segments
+void afficherChiffreSur7Segments(unsigned int valeur) {
+// Tableau de correspondance entre les chiffres et les segments
+const unsigned char chiffres[10] = {
+0b00111111, // 0
+0b00000110, // 1
+0b01011011, // 2
+0b01001111, // 3
+0b01100110, // 4
+0b01101101, // 5
+0b01111101, // 6
+0b00000111, // 7
+0b01111111, // 8
+0b01101111 // 9
+};
+
+unsigned char affichage = chiffres[valeur % 10];
+
+// Affichez la valeur sur l'afficheur 7 segments (par exemple, sur PORTB)
+PORTB = affichage;
+}
+
+void main() {
+// ...
+
+while (1) {
+    valor = ADC_read(0);
+    voltaje = ((float)valor * 5.0) / 1023;
+
+    // Affichez la valeur en mV sur l'afficheur 7 segments
+    afficherChiffreSur7Segments((unsigned int)voltaje);
+
+    // ... 
+
+    __delay_ms(1000); // Délai pour l'affichage
+}
+}
